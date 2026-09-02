@@ -1,0 +1,107 @@
+// create variables 
+int redValue = 7; // red output
+int greenValue = 9; // green output
+int blueValue = 8; // bllue output
+
+int buttonA = 3; // first button input
+int buttonB = 4; // second button input
+int buttonC = 5; // third button input
+int buttonD = 6; // forth button input
+
+int step = 0; // step for going to next while statment 
+
+// set up inputs and outputs
+void setup()
+{
+pinMode(redValue, OUTPUT);
+pinMode(greenValue, OUTPUT);
+pinMode(blueValue, OUTPUT);
+pinMode(buttonA, INPUT_PULLUP);  
+pinMode(buttonB, INPUT_PULLUP); 
+pinMode(buttonC, INPUT_PULLUP);  
+pinMode(buttonD, INPUT_PULLUP); 
+
+}
+
+// BDCA, code for the lock
+
+void loop() 
+{
+  while (step == 0){ // while step is 0 
+    
+    if (digitalRead(buttonB) == LOW){ // if you press B first, led turns green
+      step = 1;
+      analogWrite(redValue, 0);
+	  analogWrite(greenValue, 255);
+      analogWrite(blueValue, 0);
+      delay(200);
+    }
+    else if (digitalRead(buttonA) == LOW || // if you press any other button the led turns red and step goes back to 0
+             digitalRead(buttonC) == LOW ||
+             digitalRead(buttonD) == LOW){
+      step = 0;
+      analogWrite(redValue, 255);
+	  analogWrite(greenValue, 0);
+      analogWrite(blueValue, 0);
+      delay(200);
+    }
+  }
+    
+  while (step == 1){ // while setp = 1/ you pressed B before
+    if (digitalRead(buttonD) == LOW){ // if you press D second, led stays green
+      step = 2;
+      analogWrite(redValue, 0);
+	  analogWrite(greenValue, 255);
+      analogWrite(blueValue, 0);
+      delay(200);
+    }
+    else if (digitalRead(buttonA) == LOW || // if you press any other button the led turns red and step goes back to 0
+             digitalRead(buttonC) == LOW ||
+             digitalRead(buttonB) == LOW){
+      step = 0;
+      analogWrite(redValue, 255);
+	  analogWrite(greenValue, 0);
+      analogWrite(blueValue, 0);
+      delay(200);
+    }
+  }
+    
+  while (step == 2){ // while step = 2/ or you pressed BD
+    if (digitalRead(buttonC) == LOW){ // if you press C next the led stays  green
+      step = 3;
+      analogWrite(redValue, 0);
+	  analogWrite(greenValue, 255);
+      analogWrite(blueValue, 0);
+      delay(200);
+    }
+    else if (digitalRead(buttonA) == LOW || // if you press any other button the led turns red and step goes back to 0
+             digitalRead(buttonB) == LOW ||
+             digitalRead(buttonD) == LOW){
+      step = 0;
+      analogWrite(redValue, 255);
+	  analogWrite(greenValue, 0);
+      analogWrite(blueValue, 0);
+      delay(200);
+    }
+  }
+  
+  while (step == 3){ // while you pressed BDC
+    if (digitalRead(buttonA) == LOW){ // if you press A the led turn pink signaling you opened the lock
+      step = 0;
+      analogWrite(redValue, 255);
+	  analogWrite(greenValue, 50);
+	  analogWrite(blueValue, 230);
+      delay(200);
+    }
+    else if (digitalRead(buttonB) == LOW || // if you press any pther button the led turnes red and step goes back to 0
+             digitalRead(buttonC) == LOW ||
+             digitalRead(buttonD) == LOW){
+      step = 0;
+      analogWrite(redValue, 255);
+	  analogWrite(greenValue, 0);
+      analogWrite(blueValue, 0);
+      delay(200);
+    }   
+  }
+}
+
